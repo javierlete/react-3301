@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <title>React sin framework</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- React y ReactDOM (desarrollo) -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- Babel para transpilar JSX en el navegador (solo desarrollo) -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <main id="root"></main>
+
+    <!-- Tu código con JSX -->
+    <script type="text/babel">
+        function Aplicacion() {
+            return (
+                <>
+                    <Titulo texto="Ejemplo de React" />
+                    <hr />
+                    <Titulo texto="React es sencillo" nivel="2" />
+                    <hr />
+                    <Dinamita />
+                    <hr />
+                    <footer>&copy; 2025 Javier Lete</footer>
+                </>
+            );
+        }
+
+        function Titulo({ texto = 'Hola', nivel = 1 }) {
+            const opcion = +nivel;
+
+            if (isNaN(opcion)) {
+                console.error('Debes pasar un number');
+                return;
+            }
+
+            switch (opcion) {
+                case 1: return <h1>{texto}</h1>;
+                case 2: return <h2>{texto}</h2>;
+                case 3: return <h3>{texto}</h3>;
+                case 4: return <h4>{texto}</h4>;
+                case 5: return <h5>{texto}</h5>;
+                case 6: return <h6>{texto}</h6>;
+                default: console.error('Debe ser un nivel 1-6', 'Nivel recibido', opcion); return <p>ERROR</p>;
+            }
+        }
+
+        function Titulo2({ texto = 'Hola', nivel = 1 }) {
+            console.log(texto, typeof nivel, nivel);
+            const Etiqueta = `h${nivel}`;
+            return <Etiqueta>{texto}</Etiqueta>;
+        }
+
+        function Dinamita() {
+            function explotar() {
+                console.log('BOOM');
+            }
+
+            return <button onClick={explotar}>Explotar</button>;
+        }
+
+        const raizDom = document.querySelector('main');
+        const raizReact = ReactDOM.createRoot(raizDom);
+        raizReact.render(<Aplicacion />);
+    </script>
+</body>
+
+</html>
