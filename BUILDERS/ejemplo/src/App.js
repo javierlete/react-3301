@@ -1,24 +1,28 @@
-import logo from './logo.svg';
 import './App.css';
+import LabelInput from './LabelInput';
+import Titulo from './Titulo';
 
 function App() {
+  function valorCambiado(valor) {
+    console.log('En APP', valor);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <main>
+      <header className='App'>
+        <h1>Ejemplo</h1>
       </header>
-    </div>
+
+      <Titulo />
+
+      <form>
+        <LabelInput etiqueta="Nombre" valorInicial="Javier" valorCambiado={valorCambiado} />
+        <LabelInput etiqueta="Apellidos" valorInicial="Lete" />
+        <LabelInput etiqueta="Email" valorInicial="javier@email.net" />
+
+        <button>Aceptar</button>
+      </form>
+    </main>
   );
 }
 

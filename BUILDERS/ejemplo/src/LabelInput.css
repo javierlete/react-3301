@@ -1,0 +1,13 @@
+.LabelInput {
+    margin-bottom: 0.5rem;
+
+    display: flex;
+
+    label {
+        width: 8rem;
+    }
+
+    input {
+        flex-grow: 1;
+    }
+}
