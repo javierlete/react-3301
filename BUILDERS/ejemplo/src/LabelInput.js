@@ -2,10 +2,10 @@ import { useState } from 'react';
 import './LabelInput.css';
 
 export default function LabelInput({etiqueta, valorInicial, valorCambiado}) {
-    const [valor, valorChange] = useState(valorInicial);
+    const [valor, setValor] = useState(valorInicial);
     
     function onValorCambiado(valorRecibido) {
-        valorChange(valorRecibido);
+        setValor(valorRecibido);
 
         valorCambiado(valorRecibido);
     }
