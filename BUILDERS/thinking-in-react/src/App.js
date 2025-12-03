@@ -24,7 +24,7 @@ function SearchBar() {
         <input type="search" placeholder="Search..."></input>
       </div>
       <div>
-        <input type="checkbox"></input>
+        <input id="instock" type="checkbox"></input>
         <label for="instock">Only products in stock</label>
       </div>
     </>
@@ -41,33 +41,32 @@ function ProductTable() {
         </tr>
       </thead>
       <tbody>
-        <ProductCategoryRow />
-        <ProductRow />
-        <ProductRow />
-        <ProductRow />
-        <ProductCategoryRow />
-        <ProductRow />
-        <ProductRow />
-        <ProductRow />
-        <ProductRow />
+        <ProductCategoryRow category="Fruits" />
+        <ProductRow product={{ name: 'Apple', price: 1, onstock: true }} />
+        <ProductRow product={{ name: 'Dragonfruit', price: 1, onstock: true }} />
+        <ProductRow product={{ name: 'Passionfruit', price: 2, onstock: false }} />
+        <ProductCategoryRow category="Vegetables" />
+        <ProductRow product={{ name: 'Spinach', price: 2, onstock: true }} />
+        <ProductRow product={{ name: 'Pumpkin', price: 4, onstock: false }} />
+        <ProductRow product={{ name: 'Peas', price: 1, onstock: true }} />
       </tbody>
     </table>
   );
 }
 
-function ProductCategoryRow() {
+function ProductCategoryRow({ category }) {
   return (
     <tr class="categoria">
-      <th colspan="2">Frutos</th>
+      <th colspan="2">{category}</th>
     </tr>
   );
 }
 
-function ProductRow() {
+function ProductRow({ product }) {
   return (
     <tr>
-      <td className="outofstock">Plátano</td>
-      <td>5</td>
+      <td className={!product.onstock ? 'outofstock' : null}>{product.name}</td>
+      <td>${product.price}</td>
     </tr>
   );
 }
