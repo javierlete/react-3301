@@ -1,4 +1,4 @@
-import React from 'react';
+import { Fragment, useState } from 'react';
 import './App.css';
 
 function App() {
@@ -10,29 +10,32 @@ function App() {
 }
 
 function FilterableProductTable({ products }) {
+  const [filterText, setFilterText] = useState('');
+  const [inStockOnly, setInStockOnly] = useState(false);
+
   return (
     <>
-      <SearchBar />
-      <ProductTable products={products} />
+      <SearchBar filterText={filterText} inStockOnly={inStockOnly} />
+      <ProductTable products={products} filterText={filterText} inStockOnly={inStockOnly} />
     </>
   );
 }
 
-function SearchBar() {
+function SearchBar({filterText, inStockOnly}) {
   return (
     <>
       <div>
-        <input type="search" placeholder="Search..."></input>
+        <input type="search" placeholder="Search..." value={filterText}></input>
       </div>
       <div>
-        <input id="instock" type="checkbox"></input>
+        <input id="instock" type="checkbox" checked={inStockOnly}></input>
         <label htmlFor="instock">Only products in stock</label>
       </div>
     </>
   );
 }
 
-function ProductTable({ products }) {
+function ProductTable({ products, filterText, inStockOnly }) {
   let lastCategory = null;
 
   return (
@@ -45,14 +48,17 @@ function ProductTable({ products }) {
       </thead>
       <tbody>
         {
-          products.map(product => <React.Fragment key={product.name}>
+          products
+            .filter(product => product.name.toLowerCase().includes(filterText.toLowerCase()))
+            .filter(product => !inStockOnly || product.stocked)
+            .map(product => <Fragment key={product.name}>
             {
               lastCategory !== product.category ?
                 <ProductCategoryRow category={lastCategory = product.category} /> :
                 null
             }
             <ProductRow product={product} />
-          </React.Fragment>)}
+          </Fragment>)}
       </tbody>
     </table>
   );
