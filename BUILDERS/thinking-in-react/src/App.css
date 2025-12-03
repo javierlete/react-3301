@@ -1,0 +1,31 @@
+main {
+  padding: 1rem;
+}
+
+input[type=search] {
+  width: 100%;
+}
+
+table {
+  width: 100%;
+
+  td, th {
+    &:first-child {
+      text-align: left;
+    }
+    
+    &:last-child {
+      text-align: right;
+    }
+  }
+
+  tr.categoria {
+    td, th {
+      text-align: center;
+    }
+  } 
+}
+
+.outofstock {
+  color: red;
+}
