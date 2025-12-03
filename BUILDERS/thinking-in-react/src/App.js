@@ -1,18 +1,19 @@
+import React from 'react';
 import './App.css';
 
 function App() {
   return (
     <main>
-      <FilterableProductTable />
+      <FilterableProductTable products={PRODUCTS} />
     </main>
   );
 }
 
-function FilterableProductTable() {
+function FilterableProductTable({ products }) {
   return (
     <>
       <SearchBar />
-      <ProductTable />
+      <ProductTable products={products} />
     </>
   );
 }
@@ -25,13 +26,15 @@ function SearchBar() {
       </div>
       <div>
         <input id="instock" type="checkbox"></input>
-        <label for="instock">Only products in stock</label>
+        <label htmlFor="instock">Only products in stock</label>
       </div>
     </>
   );
 }
 
-function ProductTable() {
+function ProductTable({ products }) {
+  let lastCategory = null;
+
   return (
     <table>
       <thead>
@@ -41,14 +44,15 @@ function ProductTable() {
         </tr>
       </thead>
       <tbody>
-        <ProductCategoryRow category="Fruits" />
-        <ProductRow product={{ name: 'Apple', price: 1, onstock: true }} />
-        <ProductRow product={{ name: 'Dragonfruit', price: 1, onstock: true }} />
-        <ProductRow product={{ name: 'Passionfruit', price: 2, onstock: false }} />
-        <ProductCategoryRow category="Vegetables" />
-        <ProductRow product={{ name: 'Spinach', price: 2, onstock: true }} />
-        <ProductRow product={{ name: 'Pumpkin', price: 4, onstock: false }} />
-        <ProductRow product={{ name: 'Peas', price: 1, onstock: true }} />
+        {
+          products.map(product => <React.Fragment key={product.name}>
+            {
+              lastCategory !== product.category ?
+                <ProductCategoryRow category={lastCategory = product.category} /> :
+                null
+            }
+            <ProductRow product={product} />
+          </React.Fragment>)}
       </tbody>
     </table>
   );
@@ -56,8 +60,8 @@ function ProductTable() {
 
 function ProductCategoryRow({ category }) {
   return (
-    <tr class="categoria">
-      <th colspan="2">{category}</th>
+    <tr className="categoria">
+      <th colSpan="2">{category}</th>
     </tr>
   );
 }
@@ -65,10 +69,19 @@ function ProductCategoryRow({ category }) {
 function ProductRow({ product }) {
   return (
     <tr>
-      <td className={!product.onstock ? 'outofstock' : null}>{product.name}</td>
-      <td>${product.price}</td>
+      <td className={!product.stocked ? 'outofstock' : null}>{product.name}</td>
+      <td>{product.price}</td>
     </tr>
   );
 }
+
+const PRODUCTS = [
+  { category: "Fruits", price: "$1", stocked: true, name: "Apple" },
+  { category: "Fruits", price: "$1", stocked: true, name: "Dragonfruit" },
+  { category: "Fruits", price: "$2", stocked: false, name: "Passionfruit" },
+  { category: "Vegetables", price: "$2", stocked: true, name: "Spinach" },
+  { category: "Vegetables", price: "$4", stocked: false, name: "Pumpkin" },
+  { category: "Vegetables", price: "$1", stocked: true, name: "Peas" }
+]
 
 export default App;
