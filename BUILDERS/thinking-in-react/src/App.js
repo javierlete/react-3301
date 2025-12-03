@@ -15,20 +15,33 @@ function FilterableProductTable({ products }) {
 
   return (
     <>
-      <SearchBar filterText={filterText} inStockOnly={inStockOnly} />
+      <SearchBar
+        filterText={filterText}
+        inStockOnly={inStockOnly}
+        onFilterTextChange={setFilterText}
+        onInStockOnlyChange={setInStockOnly} />
       <ProductTable products={products} filterText={filterText} inStockOnly={inStockOnly} />
     </>
   );
 }
 
-function SearchBar({filterText, inStockOnly}) {
+function SearchBar({ filterText, inStockOnly, onFilterTextChange, onInStockOnlyChange }) {
   return (
     <>
       <div>
-        <input type="search" placeholder="Search..." value={filterText}></input>
+        <input
+          type="search"
+          placeholder="Search..."
+          value={filterText}
+          onChange={e => onFilterTextChange(e.target.value)}></input>
       </div>
       <div>
-        <input id="instock" type="checkbox" checked={inStockOnly}></input>
+        <input
+          id="instock"
+          type="checkbox"
+          checked={inStockOnly}
+          onChange={e => onInStockOnlyChange(e.target.checked)}
+        ></input>
         <label htmlFor="instock">Only products in stock</label>
       </div>
     </>
@@ -52,13 +65,13 @@ function ProductTable({ products, filterText, inStockOnly }) {
             .filter(product => product.name.toLowerCase().includes(filterText.toLowerCase()))
             .filter(product => !inStockOnly || product.stocked)
             .map(product => <Fragment key={product.name}>
-            {
-              lastCategory !== product.category ?
-                <ProductCategoryRow category={lastCategory = product.category} /> :
-                null
-            }
-            <ProductRow product={product} />
-          </Fragment>)}
+              {
+                lastCategory !== product.category ?
+                  <ProductCategoryRow category={lastCategory = product.category} /> :
+                  null
+              }
+              <ProductRow product={product} />
+            </Fragment>)}
       </tbody>
     </table>
   );
