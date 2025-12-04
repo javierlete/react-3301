@@ -21,12 +21,33 @@ function App() {
     console.log('App', 'producto a editar', producto);
   }
 
+  function guardar(producto) {
+    console.log('App', 'guardar', producto);
+
+    if(producto.id) {
+      const indice = productos.findIndex(p => p.id === producto.id);
+
+      if(indice !== -1) {
+        const nuevosProductos = [...productos];
+        nuevosProductos[indice] = producto;
+        
+        setProductos(nuevosProductos);
+      } else {
+        setProductos([...productos, producto]);
+      }
+    } else {
+      producto.id = productos.length ? Math.max(...productos.map(p => p.id)) + 1 : 1;
+      
+      setProductos([...productos, producto]);
+    }
+  }
+
   return (
     <main>
       <h1>CRUD</h1>
 
       <Tabla productos={productos} setProductos={setProductos} onAnyadir={anyadir} onEditar={editar} />
-      <Formulario producto={producto} />
+      <Formulario producto={producto} setProducto={setProducto} onGuardar={guardar} />
     </main>
   );
 }
@@ -77,19 +98,21 @@ function Tabla({ productos, setProductos, onAnyadir, onEditar }) {
   );
 }
 
-function Formulario({ producto }) {
+function Formulario({ producto,setProducto, onGuardar }) {
   console.log('Formulario', 'producto', producto);
 
   function submit(event) {
     event.preventDefault();
     console.log('Formulario', 'submit');
+
+    onGuardar(producto);
   }
 
   return (
     <form onSubmit={submit}>
-      <input type="number" placeholder="Id del producto" value={producto.id} />
-      <input type="text" placeholder="Nombre del producto" value={producto.nombre} />
-      <input type="number" step=".01" placeholder="Precio del producto" value={producto.precio} />
+      <input type="number" placeholder="Id del producto" value={producto.id} onChange={e => setProducto({...producto, id: e.target.value})} />
+      <input type="text" placeholder="Nombre del producto" value={producto.nombre} onChange={e => setProducto({...producto, nombre: e.target.value})} />
+      <input type="number" step=".01" placeholder="Precio del producto" value={producto.precio} onChange={e => setProducto({...producto, precio: e.target.value})} />
       <button type="submit">Guardar</button>
     </form>
   );
