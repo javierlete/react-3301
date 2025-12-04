@@ -23,8 +23,8 @@ function Tabla() {
         </tr>
       </thead>
       <tbody>
-        <FilaProducto />
-        <FilaProducto />
+        <FilaProducto producto={{id: 1, nombre: 'Portátil', precio: 1234}} />
+        <FilaProducto producto={{id: 2, nombre: 'Monitor', precio: 123}} />
       </tbody>
       <tfoot>
         <tr>
@@ -49,12 +49,12 @@ function Formulario() {
   );
 }
 
-function FilaProducto() {
+function FilaProducto({producto}) {
   return (
     <tr>
-      <td>1</td>
-      <td>Producto A</td>
-      <td>$10.00</td>
+      <td>{producto.id}</td>
+      <td>{producto.nombre}</td>
+      <td>{producto.precio} €</td>
       <td>
         <button>Editar</button>
         <button>Eliminar</button>
