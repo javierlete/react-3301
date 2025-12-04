@@ -1,17 +1,19 @@
 import './App.css';
 
 function App() {
+  const productos = PRODUCTOS;
+
   return (
     <main>
       <h1>CRUD</h1>
 
-      <Tabla />
+      <Tabla productos={productos} />
       <Formulario />
     </main>
   );
 }
 
-function Tabla() {
+function Tabla({productos}) {
   return (
     <table>
       <thead>
@@ -23,8 +25,9 @@ function Tabla() {
         </tr>
       </thead>
       <tbody>
-        <FilaProducto producto={{id: 1, nombre: 'Portátil', precio: 1234}} />
-        <FilaProducto producto={{id: 2, nombre: 'Monitor', precio: 123}} />
+        {productos.map(producto => (
+          <FilaProducto key={producto.id} producto={producto} />
+        ))}
       </tbody>
       <tfoot>
         <tr>
@@ -62,5 +65,10 @@ function FilaProducto({producto}) {
     </tr>
   );
 }
+
+const PRODUCTOS = [
+  {id: 1, nombre: 'Portátil', precio: 1234},
+  {id: 2, nombre: 'Monitor', precio: 123},
+];
 
 export default App;
