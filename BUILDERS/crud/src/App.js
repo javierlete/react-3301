@@ -14,6 +14,10 @@ function App() {
 }
 
 function Tabla({productos}) {
+  function anyadir() {
+    console.log('Añadir');
+  }
+
   return (
     <table>
       <thead>
@@ -33,7 +37,7 @@ function Tabla({productos}) {
         <tr>
           <td colSpan="3"></td>
           <td>
-            <button>Añadir</button>
+            <button onClick={anyadir}>Añadir</button>
           </td>
         </tr>
       </tfoot>
@@ -42,8 +46,13 @@ function Tabla({productos}) {
 }
 
 function Formulario() {
+  function submit(event) {
+    event.preventDefault();
+    console.log('Guardar');
+  }
+  
   return (
-    <form>
+    <form onSubmit={submit}>
       <input type="number" placeholder="Id del producto" />
       <input type="text" placeholder="Nombre del producto" />
       <input type="number" step=".01" placeholder="Precio del producto" />
@@ -53,14 +62,22 @@ function Formulario() {
 }
 
 function FilaProducto({producto}) {
+  function editar() {
+    console.log('Editar', producto.id);
+  }
+
+  function eliminar() {
+    console.log('Eliminar', producto.id);
+  }
+
   return (
     <tr>
       <td>{producto.id}</td>
       <td>{producto.nombre}</td>
       <td>{producto.precio} €</td>
       <td>
-        <button>Editar</button>
-        <button>Eliminar</button>
+        <button onClick={editar}>Editar</button>
+        <button onClick={eliminar}>Eliminar</button>
       </td>
     </tr>
   );
