@@ -3,24 +3,39 @@ import './App.css';
 
 function App() {
   const [productos, setProductos] = useState(PRODUCTOS);
+  const [producto, setProducto] = useState({});
+
+  function editar(id) {
+    console.log('App', 'editar', id);
+
+    setProducto(productos.find(producto => producto.id === id));
+
+    console.log('App', 'producto a editar', producto);
+  }
 
   return (
     <main>
       <h1>CRUD</h1>
 
-      <Tabla productos={productos} setProductos={setProductos} />
-      <Formulario />
+      <Tabla productos={productos} setProductos={setProductos} onEditar={editar} />
+      <Formulario producto={producto} />
     </main>
   );
 }
 
-function Tabla({productos, setProductos}) {
+function Tabla({productos, setProductos, onEditar}) {
+  function editarProducto(id) {
+    console.log('Tabla', 'editarProducto', id);
+
+    onEditar(id);
+  }
+  
   function eliminarProducto(id) {
     console.log('Tabla', 'eliminarProducto', id);
 
     setProductos(productos.filter(producto => producto.id !== id));
   }
-  
+
   function anyadir() {
     console.log('Tabla', 'anyadir');
   }
@@ -37,7 +52,7 @@ function Tabla({productos, setProductos}) {
       </thead>
       <tbody>
         {productos.map(producto => (
-          <FilaProducto key={producto.id} producto={producto} onEliminar={eliminarProducto} />
+          <FilaProducto key={producto.id} producto={producto} onEditar={editarProducto} onEliminar={eliminarProducto} />
         ))}
       </tbody>
       <tfoot>
@@ -52,7 +67,9 @@ function Tabla({productos, setProductos}) {
   );
 }
 
-function Formulario() {
+function Formulario({producto}) {
+  console.log('Formulario', 'producto', producto);
+
   function submit(event) {
     event.preventDefault();
     console.log('Formulario', 'submit');
@@ -60,17 +77,19 @@ function Formulario() {
 
   return (
     <form onSubmit={submit}>
-      <input type="number" placeholder="Id del producto" />
-      <input type="text" placeholder="Nombre del producto" />
-      <input type="number" step=".01" placeholder="Precio del producto" />
+      <input type="number" placeholder="Id del producto" value={producto.id} />
+      <input type="text" placeholder="Nombre del producto" value={producto.nombre} />
+      <input type="number" step=".01" placeholder="Precio del producto" value={producto.precio} />
       <button type="submit">Guardar</button>
     </form>
   );
 }
 
-function FilaProducto({producto, onEliminar}) {
+function FilaProducto({producto, onEliminar, onEditar}) {
   function editar() {
     console.log('FilaProducto', 'editar', producto.id);
+
+    onEditar(producto.id);
   }
 
   function eliminar() {
