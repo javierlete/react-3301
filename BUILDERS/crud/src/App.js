@@ -14,8 +14,12 @@ function App() {
 }
 
 function Tabla({productos}) {
+  function eliminarProducto(id) {
+    console.log('Eliminar producto con id:', id);
+  }
+  
   function anyadir() {
-    console.log('Añadir');
+    console.log('Tabla', 'anyadir');
   }
 
   return (
@@ -30,7 +34,7 @@ function Tabla({productos}) {
       </thead>
       <tbody>
         {productos.map(producto => (
-          <FilaProducto key={producto.id} producto={producto} />
+          <FilaProducto key={producto.id} producto={producto} onEliminar={eliminarProducto} />
         ))}
       </tbody>
       <tfoot>
@@ -48,9 +52,9 @@ function Tabla({productos}) {
 function Formulario() {
   function submit(event) {
     event.preventDefault();
-    console.log('Guardar');
+    console.log('Formulario', 'submit');
   }
-  
+
   return (
     <form onSubmit={submit}>
       <input type="number" placeholder="Id del producto" />
@@ -61,13 +65,15 @@ function Formulario() {
   );
 }
 
-function FilaProducto({producto}) {
+function FilaProducto({producto, onEliminar}) {
   function editar() {
-    console.log('Editar', producto.id);
+    console.log('FilaProducto', 'editar', producto.id);
   }
 
   function eliminar() {
-    console.log('Eliminar', producto.id);
+    console.log('FilaProducto', 'eliminar', producto.id);
+
+    onEliminar(producto.id);
   }
 
   return (
