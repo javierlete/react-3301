@@ -1,21 +1,24 @@
+import {useState} from 'react';
 import './App.css';
 
 function App() {
-  const productos = PRODUCTOS;
+  const [productos, setProductos] = useState(PRODUCTOS);
 
   return (
     <main>
       <h1>CRUD</h1>
 
-      <Tabla productos={productos} />
+      <Tabla productos={productos} setProductos={setProductos} />
       <Formulario />
     </main>
   );
 }
 
-function Tabla({productos}) {
+function Tabla({productos, setProductos}) {
   function eliminarProducto(id) {
-    console.log('Eliminar producto con id:', id);
+    console.log('Tabla', 'eliminarProducto', id);
+
+    setProductos(productos.filter(producto => producto.id !== id));
   }
   
   function anyadir() {
