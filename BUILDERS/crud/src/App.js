@@ -1,9 +1,17 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import './App.css';
 
 function App() {
+  const PRODUCTO_VACIO = { id: '', nombre: '', precio: '' };
+
   const [productos, setProductos] = useState(PRODUCTOS);
-  const [producto, setProducto] = useState({});
+  const [producto, setProducto] = useState(PRODUCTO_VACIO);
+
+  function anyadir() {
+    console.log('App', 'anyadir');
+
+    setProducto(PRODUCTO_VACIO);
+  }
 
   function editar(id) {
     console.log('App', 'editar', id);
@@ -17,19 +25,19 @@ function App() {
     <main>
       <h1>CRUD</h1>
 
-      <Tabla productos={productos} setProductos={setProductos} onEditar={editar} />
+      <Tabla productos={productos} setProductos={setProductos} onAnyadir={anyadir} onEditar={editar} />
       <Formulario producto={producto} />
     </main>
   );
 }
 
-function Tabla({productos, setProductos, onEditar}) {
+function Tabla({ productos, setProductos, onAnyadir, onEditar }) {
   function editarProducto(id) {
     console.log('Tabla', 'editarProducto', id);
 
     onEditar(id);
   }
-  
+
   function eliminarProducto(id) {
     console.log('Tabla', 'eliminarProducto', id);
 
@@ -38,6 +46,8 @@ function Tabla({productos, setProductos, onEditar}) {
 
   function anyadir() {
     console.log('Tabla', 'anyadir');
+
+    onAnyadir();
   }
 
   return (
@@ -67,7 +77,7 @@ function Tabla({productos, setProductos, onEditar}) {
   );
 }
 
-function Formulario({producto}) {
+function Formulario({ producto }) {
   console.log('Formulario', 'producto', producto);
 
   function submit(event) {
@@ -85,7 +95,7 @@ function Formulario({producto}) {
   );
 }
 
-function FilaProducto({producto, onEliminar, onEditar}) {
+function FilaProducto({ producto, onEliminar, onEditar }) {
   function editar() {
     console.log('FilaProducto', 'editar', producto.id);
 
@@ -112,8 +122,8 @@ function FilaProducto({producto, onEliminar, onEditar}) {
 }
 
 const PRODUCTOS = [
-  {id: 1, nombre: 'Portátil', precio: 1234},
-  {id: 2, nombre: 'Monitor', precio: 123},
+  { id: 1, nombre: 'Portátil', precio: 1234 },
+  { id: 2, nombre: 'Monitor', precio: 123 },
 ];
 
 export default App;
